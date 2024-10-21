@@ -52,6 +52,7 @@ search_paths () {
 		done < /home/$(logname)/.config/bgutc/bgutc.conf
 
 		echo path found
+
 }
 
 set_change () {

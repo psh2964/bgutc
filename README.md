@@ -3,8 +3,21 @@
 bgutc is a bash script for linux that allows for quick switching between different theming presets. 
 
 ## Installation
+---
+### Dependencies
+ - zenity
+---
 
-* TBD
+> [!WARNING]
+> It is reccomended to backup your configuration files before installing bgutc
+
+
+### Manual installation
+```
+$ git clone https://github.com/sam-bytes/bgutc.git
+$ cd bgutc
+# bash install.sh
+```
 
 ## Configuration
 
