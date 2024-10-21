@@ -36,7 +36,7 @@ You now have to provide the path to each program's configuration files, for each
 > ~/.config/bgut.conf
 ```
 [program's name]
-conf="/path/to/the/default/config/file"
+conf="/path/to/the/programs/config/folder"
 preset_1="/path/to/a/preset/file" 
 preset_2="/path/to/another/preset/file"
 ```

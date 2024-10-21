@@ -5,8 +5,9 @@
 version="1.0"
 
 # Global variables used in the search_paths function
-option=$(sed -n '1p' /home/$(logname)/.config/bgutc.conf)
-theme=$(sed -n '2p' /home/$(logname)/.config/bgutc.conf)
+option=$(sed -n '1p' /home/$(logname)/.config/bgutc/bgutc.conf)
+theme=$(sed -n '2p' /home/$(logname)/.config/bgutc/bgutc.conf)
+
 declare -A path
 declare -A argument
 
@@ -16,47 +17,47 @@ show_version () {
 
 search_paths () {
 
-rep=$1
+	rep=$1
 
-for val in $option; do
-    path["$val"]="hi"
-	argument["$val"]="hi"
-done
+	for val in $option; do
+		path["$val"]="hi"
+		argument["$val"]="hi"
+	done
 
-current_section=""
+	current_section=""
 
-while IFS='=' read -r key value; do
+	while IFS='=' read -r key value; do
 
-    key=$(echo "$key" | xargs)
-    value=$(echo "$value" | xargs)
+		key=$(echo "$key" | xargs)
+		value=$(echo "$value" | xargs)
 
-    [[ -z "$key" || "$key" =~ ^# ]] && continue
+		[[ -z "$key" || "$key" =~ ^# ]] && continue
 
-    if [[ "$key" == \[*\] ]]; then		# Check which is beign read
-        current_section="${key:1:-1}"  
+		if [[ "$key" == \[*\] ]]; then		# Check which is being read
+			current_section="${key:1:-1}"  
 
-    elif [[ -n "$current_section" ]]; then 	
-		
-		if [[ "$key" = "conf" ]]; then
-			path[$current_section]=$value
+		elif [[ -n "$current_section" ]]; then 	
+			
+			if [[ "$key" = "conf" ]]; then
+				path[$current_section]=$value
 
-		elif [[ "$key" = "arg" ]]; then
-			argument[$current_section]=$value
+			elif [[ "$key" = "arg" ]]; then
+				argument[$current_section]=$value
 
-		elif [[ "$key" = "$rep" ]]; then
-			path[$current_section]+=" ""$value"
+			elif [[ "$key" = "$rep" ]]; then
+				path[$current_section]+=" ""$value"
+			fi
+
 		fi
+		done < /home/$(logname)/.config/bgutc/bgutc.conf
 
-    fi
-	done < /home/$(logname)/.config/bgutc.conf
-
-	echo path finded
+		echo path found
 }
 
 set_change () {
-	theme_selected=$1
+	selected_theme=$1
 
-	search_paths "$theme_selected"
+	search_paths "$selected_theme"
 
 	for key in "${!path[@]}"; do
         echo "$key: ${path[$key]}"
@@ -64,10 +65,9 @@ set_change () {
 
 	for program in "${!path[@]}"; do
 		read default_path newconf_path <<< "${path[$program]}"
-		rm $default_path
-		cp $newconf_path $default_path
+		rm -rf $default_path
+		cp -r $newconf_path $default_path
 	done
-
 }
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
@@ -76,14 +76,13 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ] ; then
 
 elif [ "$1" = "-v" ] || [ "$1" = "--version" ] ; then
 	show_version
-	
 else
 
-theme_selected=$(zenity --list --title="Select Theme" --text="Themes" --column="" $theme)
+selected_theme=$(zenity --list --title="Select Theme" --text="Themes" --column="" $theme)
 
-echo $theme_selected is applied
+echo $selected_theme is applied
 
-set_change "$theme_selected"
+set_change "$selected_theme"
 
 # Restart WM
 
@@ -98,7 +97,7 @@ fi
 # Restart Bars
 
 if echo "$option" | grep -wq "polybar"; then
-	pkill polybar
+	killall polybar
 	if [[ -n argument[polybar] ]]; then
 		IFS=' ' read -r -a array <<< "${argument[polybar]}"
 		for item in "${array[@]}"; do
@@ -110,13 +109,16 @@ if echo "$option" | grep -wq "polybar"; then
 fi
 
 if echo "$option" | grep -wq "waybar"; then
-	pkill -SIGUSR1 waybar
+	echo killing waybar
+	killall waybar
+	echo starting waybar
+	waybar
 fi
 
 # Restart others
 
 if echo "$option" | grep -wq "dunst"; then
-	pkill -SIGUSR1 dunst
+	killall dunst
 fi
 
 fi
