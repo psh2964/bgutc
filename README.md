@@ -3,6 +3,7 @@
 bgutc is a bash script for linux that allows for quick switching between different theming presets. 
 
 ## Installation
+
 ---
 ### Dependencies
  - zenity
@@ -13,6 +14,7 @@ bgutc is a bash script for linux that allows for quick switching between differe
 
 
 ### Manual installation
+
 ```
 $ git clone https://github.com/sam-bytes/bgutc.git
 $ cd bgutc
@@ -22,7 +24,7 @@ $ cd bgutc
 ## Configuration
 
 
-### Step 1: Add programs to the config
+### Step 1: Add programs to your config
 On the **first** line of the configuration file, add the names of the programs whose themes you want to switch:
 
 ---
@@ -50,8 +52,8 @@ You now have to provide the path to each program's configuration files, for each
 ```
 [program's name]
 conf="/path/to/the/programs/config/folder"
-preset_1="/path/to/a/preset/file" 
-preset_2="/path/to/another/preset/file"
+preset_1="/home/username/.config/bgutc/program/preset_1/" 
+preset_2="/home/username/.config/bgutc/program/preset_2/"
 ```
 ---
 
@@ -59,18 +61,18 @@ preset_2="/path/to/another/preset/file"
 
 > ~/.config/bgut.conf
 ```
-rofi polybar
+rofi waybar
 waterfall nightfall
 
 [rofi]
-conf="~/.config/rofi/config.rasi
-waterfall="~/.config/rofi/waterfall.rasi"
-nightfall="~/.config/rofi/config/nightfall.rasi"
+conf="/home/user/.config/rofi/"
+waterfall="/home/user/.config/bgutc/rofi/waterfall/"
+nightfall="/home/user/.config/bgutc/rofi/nightfall/"
 
-[polybar]
-conf="~/.config/polybar/config.ini"
-waterfall="~/.config/polybar/waterfall.ini"
-nightfall="~/.config/polybar/nightfall.ini"
+[waybar]
+conf="/home/user/.config/waybar/"
+waterfall="/home/user/.config/bgutc/waybar/waterfall/"
+nightfall="/home/user/.config/bgutc/waybar/nightfall/"
 ```
 
 ## Compatibility:
@@ -79,9 +81,12 @@ Currently, bgutc is compatible with:
 
 #### WM's
 - i3
+- sway
+
 
 #### Bars
 - polybar
+- waybar
 
 #### Other
 - rofi
