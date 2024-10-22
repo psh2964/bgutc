@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cp -f bgutc /usr/bin/bgutc
 chmod +x /usr/bin/bgutc
 
