@@ -14,7 +14,7 @@ fi
 
 # Check if the config file exists
 if ! [ -f /home/$(logname)/.config/bgutc/bgutc.conf ] ; then
-    cp -f bgutc.conf /home/$(logname)/.config/bgutc/bgutc.conf
+    touch -f /home/$(logname)/.config/bgutc/bgutc.conf
     chmod a+w+r /home/$(logname)/.config/bgutc/bgutc.conf
 fi
 
